@@ -1,0 +1,97 @@
+.frame{
+    overflow: hidden;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #d9d9d9;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.rectangle{
+    width: 2000px;
+    height: 120px;
+    margin-bottom: 30px;
+    overflow: scroll;
+}
+
+.rectangle1{
+    position: relative;
+    right: 200px;
+}
+
+.rectangle2{
+    width: 100px;
+    height: 50px;
+    overflow: scroll;
+}
+
+.rectangle3{
+    width: max-content;
+    height: max-content;
+    bottom: 350px;
+    left: 300px;
+    position: relative;
+    background-color: white;
+    padding: 10px 20px 50px 20px;
+}
+.rectangle7{
+    width: 1000px;
+    height: max-content;
+    bottom: 150px;
+    left: 5px;
+    position: relative;
+    background-color: white;
+}
+
+.rectangleSimpan{
+
+    margin: 0px 0px 10px 0px;
+    border: 1px solid black;
+    border-radius: 15px;
+    width: 350px;
+    height: 40px;
+    bottom: 50px;
+    left: 400px;
+    display: flex;
+    justify-content: center;
+
+}
+/* .rectangleLike{
+    margin: 0px 0px 10px 0px;
+    border: 1px solid black;
+    border-radius: 15px;
+    width: 350px;
+    height: 40px;
+    bottom: 50px;
+    left: 950px;
+    display: flex;
+    justify-content: center;
+
+} */
+.rectangleimg{
+    width: 30px;
+    height: max-content;
+    margin: auto;
+}
+
+.rectangle4{
+    width: 100px;
+    height: max-content;
+    margin: auto;
+    right: 20px;
+    position: relative;
+}
+
+/* .rectangle0{
+    right: 150px;
+    top: 10px;
+    position: relative;
+}
+
+.likeimg {
+    right: 180px;
+    position: relative;
+} */

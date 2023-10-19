@@ -1,0 +1,218 @@
+.frame {
+  width: 100%;
+  overflow: hidden;
+  max-width: 390px;
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,.25);
+  box-sizing: border-box;
+  min-height: 844px;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #fff;
+  min-height: 100%;
+  position: relative;
+  position: fixed;
+}
+
+.rectangle4 {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+  opacity: .5;
+  max-width: 280px;
+  height: 33px;
+  border-radius: 7px 7px 7px 7px;
+  margin-left: 50px;
+  position: relative;
+  margin-right: 30px;
+  top: 290px;
+  position: fixed;
+  text-align: center;
+  font-size: medium;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight:bolder;
+}
+
+.rectangle5 {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+  opacity: .5;
+  max-width: 280px;
+  height: 33px;
+  border-radius: 7px 7px 7px 7px;
+  margin-left: 50px;
+  position: relative;
+  margin-right: 30px;
+  top: 370px;
+  position: fixed;
+  text-align: center;
+  font-size: medium;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight:bolder;
+}
+
+.rectangle6 {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+  max-width: 280px;
+  height: 38px;
+  border-radius: 7px 7px 7px 7px;
+  margin-left: 50px;
+  position: relative;
+  margin-right: 30px;
+  top: 444px;
+  position: fixed;
+  text-align: center;
+  font-size: medium;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight:bolder;
+  color: white;
+  background-color: green;
+}
+
+.rectangle7 {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+  max-width: 280px;
+  height: 38px;
+  border-radius: 7px 7px 7px 7px;
+  margin-left: 95px;
+  position: relative;
+  margin-right: 30px;
+  top: 492px;
+  position: fixed;
+  text-align: center;
+  font-size: medium;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:bolder;
+  color: white;
+  font-size: 15px;
+}
+
+.rectangle {
+  filter: blur(4px);
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+  max-width: 390px;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  position: relative;
+}
+
+.rectangle1, .rectangle2 {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+  max-width: 390px;
+}
+
+.rectangle1 {
+  opacity: .5;
+  box-shadow: 0 4px 60px 0 rgba(0,0,0,.25);
+  border-radius: 27px 27px 27px 27px;
+  width: fit-content;
+  position: fixed;
+  top: 70px;
+}
+/* .rectangle1 {
+  opacity: .5;
+  box-shadow: 0 4px 60px 0 rgba(0,0,0,.25);
+  border-radius: 27px 27px 27px 27px;
+  top: 100px;
+  width: fit-content;
+  margin-right: 30px;
+  position: fixed;
+  top: 70px;
+  background-size: cover;
+} */
+
+.rectangle2 {
+  margin-left: 50px;
+  position: relative;
+  top: 140px;
+}
+/* .rectangle2 {
+  margin-left: 50px;
+  position: relative;
+  margin-right: 30px;
+  top: 140px;
+  position: fixed;
+} */
+
+.rectangle3 {
+  margin-left: 50px;
+  top: 260px;
+  position: fixed;
+}
+/* .rectangle3 {
+  margin-left: 50px;
+  position: relative;
+  margin-right: 30px;
+  top: 260px;
+  position: fixed;
+} */
+
+.text,.text1 {
+  margin-top: 0;
+  text-align: left;
+  margin-bottom: 0;
+}
+.text {
+  width: 100%;
+  max-width: 419px;
+  min-height: auto;
+}
+.text1 {
+  color: black;
+  font-size: 20px;
+  font-style: normal;
+  font-family: "Montserrat",sans-serif;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+  text-transform: none;
+  position: absolute;
+  bottom: 480px;
+}
+.line {
+  width: 100%;
+  height: 1.0000152587890625px;
+  margin: 0;
+  display: block;
+  max-width: 110px;
+  transform: rotate(0deg);
+  max-height: 1.0000152587890625px;
+}
+.text2,.text3 {
+  margin-top: 0;
+  text-align: left;
+  margin-bottom: 0;
+}
+.text2 {
+  width: 100%;
+  max-width: 419px;
+  min-height: auto;
+}
+.text3 {
+  color: #fff;
+  font-size: 40px;
+  font-style: normal;
+  font-family: "Iceland",sans-serif;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+  text-transform: none;
+}
