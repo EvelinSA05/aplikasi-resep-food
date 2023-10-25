@@ -3,7 +3,7 @@ import React from 'react'
 const SaveAdmin = () => {
   return (
     <div className="overflow-x-auto mt-20">
-    <h1 className="text-center p-1">Histori Resep User</h1>
+      <h1 className="text-center p-1">Histori Resep User</h1>
       <table className="table-auto w-full border-collapse border border-green-800">
         <thead>
           <tr className="bg-green-500 text-white">

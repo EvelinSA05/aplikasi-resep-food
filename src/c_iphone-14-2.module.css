@@ -2,7 +2,7 @@
   width: 100%;
   overflow: hidden;
   max-width: 390px;
-  box-shadow: 0 4px 4px 0 rgba(0,0,0,.25);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
   box-sizing: border-box;
   min-height: 844px;
   align-items: flex-start;
@@ -31,7 +31,7 @@
   text-align: center;
   font-size: medium;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  font-weight:bolder;
+  font-weight: bolder;
 }
 
 .rectangle5 {
@@ -51,7 +51,7 @@
   text-align: center;
   font-size: medium;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  font-weight:bolder;
+  font-weight: bolder;
 }
 
 .rectangle6 {
@@ -70,7 +70,7 @@
   text-align: center;
   font-size: medium;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  font-weight:bolder;
+  font-weight: bolder;
   color: white;
   background-color: green;
 }
@@ -90,8 +90,8 @@
   position: fixed;
   text-align: center;
   font-size: medium;
-  font-family:Arial, Helvetica, sans-serif;
-  font-weight:bolder;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bolder;
   color: white;
   font-size: 15px;
 }
@@ -111,7 +111,8 @@
   position: relative;
 }
 
-.rectangle1, .rectangle2 {
+.rectangle1,
+.rectangle2 {
   width: 100%;
   height: auto;
   margin: 0;
@@ -121,12 +122,13 @@
 
 .rectangle1 {
   opacity: .5;
-  box-shadow: 0 4px 60px 0 rgba(0,0,0,.25);
+  box-shadow: 0 4px 60px 0 rgba(0, 0, 0, .25);
   border-radius: 27px 27px 27px 27px;
   width: fit-content;
   position: fixed;
   top: 70px;
 }
+
 /* .rectangle1 {
   opacity: .5;
   box-shadow: 0 4px 60px 0 rgba(0,0,0,.25);
@@ -144,6 +146,7 @@
   position: relative;
   top: 140px;
 }
+
 /* .rectangle2 {
   margin-left: 50px;
   position: relative;
@@ -157,6 +160,7 @@
   top: 260px;
   position: fixed;
 }
+
 /* .rectangle3 {
   margin-left: 50px;
   position: relative;
@@ -165,21 +169,24 @@
   position: fixed;
 } */
 
-.text,.text1 {
+.text,
+.text1 {
   margin-top: 0;
   text-align: left;
   margin-bottom: 0;
 }
+
 .text {
   width: 100%;
   max-width: 419px;
   min-height: auto;
 }
+
 .text1 {
   color: black;
   font-size: 20px;
   font-style: normal;
-  font-family: "Montserrat",sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   line-height: normal;
   letter-spacing: 0;
@@ -187,6 +194,7 @@
   position: absolute;
   bottom: 480px;
 }
+
 .line {
   width: 100%;
   height: 1.0000152587890625px;
@@ -196,21 +204,25 @@
   transform: rotate(0deg);
   max-height: 1.0000152587890625px;
 }
-.text2,.text3 {
+
+.text2,
+.text3 {
   margin-top: 0;
   text-align: left;
   margin-bottom: 0;
 }
+
 .text2 {
   width: 100%;
   max-width: 419px;
   min-height: auto;
 }
+
 .text3 {
   color: #fff;
   font-size: 40px;
   font-style: normal;
-  font-family: "Iceland",sans-serif;
+  font-family: "Iceland", sans-serif;
   font-weight: 400;
   line-height: normal;
   letter-spacing: 0;

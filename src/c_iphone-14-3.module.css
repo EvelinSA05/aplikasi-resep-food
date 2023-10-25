@@ -172,7 +172,7 @@
   }
   .search2 {
     position: relative;
-    left: 35rem;
+    left: 0rem;
     top: 0rem;
   }
   .rectangle {
@@ -189,7 +189,7 @@
     display: block;
     width: 100%;
     top: 0;
-    left: 450px;
+    left: 9rem;
     position: relative;
     max-width: 200px;
     margin-left: auto;
@@ -201,7 +201,7 @@
     display: block;
     width: 100%;
     top: -5px;
-    right: 200px;
+    right: 50rem;
     position: relative;
     max-width: 30px;
     margin-left: 35px;
