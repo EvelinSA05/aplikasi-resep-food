@@ -6,6 +6,14 @@
     justify-content: flex-start;
     width: 100%;
   }
+  .foto {
+    width: 1000px;
+    height: 200px;
+  }
+  .checklist {
+    color: black;
+    position: relative;
+  }
   .sampah {
     position: relative;
     bottom: 240px;
@@ -152,11 +160,11 @@
   }
   .rectangle9 {
     width: 100%;
-    left: 60rem;
+    left: 50rem;
     height: auto;
     margin: 0;
     display: block;
-    max-width: 100px;
+    max-width: 130px;
     height: 38px;
     border-radius: 7px 7px 7px 7px;
     margin-left: 130px;

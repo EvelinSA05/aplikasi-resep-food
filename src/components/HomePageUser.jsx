@@ -16,35 +16,41 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import image from "../assets3/image1.png"; //gambar
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import ResepContext from "../Context/ResepContext";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 export const HomePageUser = () => {
-  // const [reseps, setReseps] = useState([]);
-  // // const [imageData, setImageData] = useState(null);
+  const [reseps, setReseps] = useState([]);
+  const [recipe, setRecipe] = useState([]);
+  // const [imageData, setImageData] = useState(null);
+  const {formValues, onChange, errors} = useContext(ResepContext);
 
+  useEffect(() => {
+    const getReseps = async () => {
+      const apiReseps = await axios.get("reseps");
+      setReseps(apiReseps.data);
+    };
+    getReseps();
+
+    // axios.get('http://127.0.0.1:8000/api/reseps')
+    //   .then(response => {
+    //     setReseps(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
+  }, []);
+
+  // const { reseps, getReseps, recipe, deleteSkill } = useContext(ResepContext);
   // useEffect(() => {
-  //   const getReseps = async () => {
-  //     const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
-  //     setReseps(apiReseps.data);
-  //   };
   //   getReseps();
-
-  //   // axios.get('http://127.0.0.1:8000/api/reseps')
-  //   //   .then(response => {
-  //   //     setReseps(response.data);
-  //   //   })
-  //   //   .catch(error => {
-  //   //     console.error(error);
-  //   //   });
   // }, []);
 
-  const { reseps, getReseps, deleteSkill } = useContext(ResepContext);
-  useEffect(() => {
-    getReseps();
-  }, []);
+  const { id } = useParams();
 
   const CarouselImage = {
     width: "1500px",
@@ -243,7 +249,7 @@ export const HomePageUser = () => {
               </div> */}
 
                
-              {/* {reseps.map((resep) => {
+              {reseps.map((resep, id) => {
                 return (
                 // <tr key={resep.id}>
                 //   <td>{resep.image}</td>
@@ -254,10 +260,10 @@ export const HomePageUser = () => {
                
                
 
-                <div key={resep.id} className="col-md-4 col-sm-12">
-                  <Link to="">
+                <div key={reseps.id} className="col-md-4 col-sm-12">
+                  <Link to={`reseps/${reseps.id}`}>
                     <div className="card">
-                    <img src={resep.image} alt="Uploaded Image" />
+                    <img src={resep.image} alt="Uploaded Image" className={styles["foto"]} />
                       <div className="card-body">
                         <div className="card-title">
                           <h4>{resep.title}</h4>
@@ -268,9 +274,9 @@ export const HomePageUser = () => {
                   <img src={save} alt="rectangle" className={styles["save2"]} />
                 </div>
                 );
-              })} */}
+              })}
 
-
+{/* 
               <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="">
@@ -306,14 +312,14 @@ export const HomePageUser = () => {
                     })}
                   </tbody>
                 </table>
-              </div> 
+              </div>  */}
             </div>
           </div>
 
-          <Carousel className="mx-auto mt-20" style={{ width: '800px' }}>
+          <Carousel className="mx-auto mt-20" style={{ width: '800px', visibility: 'hidden' }}>
             <Carousel.Item>
               <img
-                className="d-block w-100"
+                className="d-block w-10"
                 src={sushi}
                 alt="First slide"
               />
@@ -344,7 +350,7 @@ export const HomePageUser = () => {
           </Carousel>
 
           <nav className={styles["navbar"]}>
-            <Link to="/homepageUser">
+            <Link to="/">
               <img src={rumah} alt="rectangle" className={styles["rumah"]} />
             </Link>
             <Link to="/save">

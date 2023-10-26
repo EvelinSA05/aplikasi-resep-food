@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import styles from "../c_iphone-14-3.module.css";
+import styles from "../c_iphone-14-4.module.css";
 import logo from "../assets3/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
@@ -111,6 +111,9 @@ const DashboardAdmin = () => {
             </button></Link>
           </div> */}
 
+          <Link to="/NewAdmin">
+            <button className={styles['rectangle9']}>ADMIN</button>
+          </Link>
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="">
