@@ -113,6 +113,7 @@ const Recipe = () => {
                   <h2>Langkah-Langkah</h2>
                   <ul>
                     <li>{step}</li>
+                    <br />
                   </ul>
                 </div>
                 <img

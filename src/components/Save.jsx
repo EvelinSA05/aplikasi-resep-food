@@ -247,6 +247,7 @@ const CustomerData = () => {
             {saved.map((save) => {
               return (
                 <div key={save.id} className="col-md-4 col-sm-12">
+                  <Link to={`histories/${save.id}`}>
                   <div className="card mt-10">
                     <img src={save.image} alt="Uploaded Image" className={styles["foto"]} />
                     <div className="card-body">
@@ -255,6 +256,7 @@ const CustomerData = () => {
                       </div>
                     </div>
                   </div>
+                  </Link>
                   <img src={save2} alt="rectangle" className={styles["save2"]} />
                 </div>
               );

@@ -249,7 +249,7 @@ export const HomePageUser = () => {
               </div> */}
 
                
-              {reseps.map((resep, id) => {
+              {reseps.map((resep) => {
                 return (
                 // <tr key={resep.id}>
                 //   <td>{resep.image}</td>
@@ -260,8 +260,8 @@ export const HomePageUser = () => {
                
                
 
-                <div key={reseps.id} className="col-md-4 col-sm-12">
-                  <Link to={`reseps/${reseps.id}`}>
+                <div key={resep.id} className="col-md-4 col-sm-12">
+                  <Link to={`reseps/${resep.id}`}>
                     <div className="card">
                     <img src={resep.image} alt="Uploaded Image" className={styles["foto"]} />
                       <div className="card-body">
