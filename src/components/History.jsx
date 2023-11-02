@@ -6,6 +6,7 @@ import logo from "../assets3/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import '../c_iphone-14-5.module.css';
+import { useParams } from 'react-router-dom';
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -13,18 +14,36 @@ import axios from "axios";
 
 const History = () => {
   const [histories, setHistory] = useState([]);
+  const [saved, setSave] = useState([]);
+  const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
+  // const [imageData, setImageData] = useState(null);
+  const { id } = useParams();
+
   // const [imageData, setImageData] = useState(null);
 
-  useEffect(() => {
-    // const getReseps = async () => {
-    //   const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
-    //   setReseps(apiReseps.data);
-    // };
-    // getReseps();
+  // useEffect(() => {
+  //   // const getReseps = async () => {
+  //   //   const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
+  //   //   setReseps(apiReseps.data);
+  //   // };
+  //   // getReseps();
 
-    axios.get('http://127.0.0.1:8000/api/histories')
+  //   axios.get('http://127.0.0.1:8000/api/histories')
+  //     .then(response => {
+  //       setHistory(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    // Mengambil data status bookmark dari server
+    axios.get('http://127.0.0.1:8000/api/reseps')
       .then(response => {
-        setHistory(response.data);
+        // Filter hanya resep yang memiliki status bookmark true (1)
+        const filteredRecipes = response.data.filter(reseps => reseps.is_bookmarked === 1);
+        setBookmarkedRecipes(filteredRecipes);
       })
       .catch(error => {
         console.error(error);
@@ -87,7 +106,7 @@ const History = () => {
       </div>
       <div className="main-content flex-1 bg-lime-100">
         <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4 text-center">History User</h1>
+          <h1 className="text-2xl font-bold mb-4 text-center">BookMark User</h1>
 
           <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -97,16 +116,16 @@ const History = () => {
                 Nama Resep
               </th>
               <th scope="col" className="px-6 py-3">
-                Nama Akun
+                Gambar
               </th>
               <th scope="col" className="px-6 py-3">
-                Kategori
+                Nama Akun
               </th>
               <th scope="col" className="px-6 py-3"></th>
             </tr>
           </thead>
           <tbody>
-            {histories.map((history) => {
+            {/* {histories.map((history) => {
               return (
                 <tr
                   key={history.id}
@@ -115,6 +134,23 @@ const History = () => {
                   <td className="px-6 py-4">{history.title}</td>
                   <td className="px-6 py-4">{history.namaakun}</td>
                   <td className="px-6 py-4">{history.kategori}</td>
+                </tr>
+              );
+            })} */}
+            {bookmarkedRecipes.map((resep) => {
+              return (
+                <tr
+                  key={resep.id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                >
+                  <td className="px-6 py-4">{resep.title}</td>
+                  <img src={resep.image} width={100} height={70} alt="" />
+                  <td className="px-6 py-4">{resep.namaakun}</td>
+                  <Link to={`/reseps/${resep.id}`}>
+                            <div>
+                          <button className="btn btn-success rounded-sm shadow border-0">DETAIL</button>
+                          </div>
+                          </Link>
                 </tr>
               );
             })}

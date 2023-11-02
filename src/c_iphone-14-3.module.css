@@ -178,6 +178,30 @@
     color: white;
     background-color: green;
   }
+  .rectangle20 {
+    visibility: hidden;
+  }
+  .rectangle15 {
+    width: 100%;
+    left: 50rem;
+    height: auto;
+    margin: 0;
+    display: block;
+    max-width: 130px;
+    height: 38px;
+    border-radius: 7px 7px 7px 7px;
+    margin-left: 130px;
+    position: relative;
+    margin-right: 30px;
+    top: -10px;
+    text-align: center;
+    font-size: medium;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight:bolder;
+    color: white;
+    background-color: red;
+    margin-bottom: 12px;
+  }
   .search2 {
     position: relative;
     left: 0rem;
@@ -296,6 +320,7 @@
     width: 50%;
     max-width: 30px;
     left: 88%;
+    visibility: hidden;
   }
   .save3 {
     position: relative;
@@ -329,6 +354,7 @@
   }
   .alltext{
     margin-left: 10px;
+    visibility: hidden;
   }
   .instance {
     gap: 10px;

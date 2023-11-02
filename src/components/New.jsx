@@ -42,7 +42,7 @@ export const New = () => {
     await axios.post("reseps", formData)
       .then(() => {
 
-        navigate('/');
+        navigate('/dashboardLogin');
 
 
       })

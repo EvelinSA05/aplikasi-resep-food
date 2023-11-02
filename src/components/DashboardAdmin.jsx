@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../c_iphone-14-4.module.css";
 import logo from "../assets3/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../c_iphone-14-5.module.css';
 import kartun from "../assets4/kartun.jpg";
 
@@ -14,7 +14,8 @@ import axios from "axios";
 
 const DashboardAdmin = () => {
 
-  const [admins, setAdmin] = useState([]);
+  const [admin, setAdmin] = useState([]);
+  const navigate = useNavigate();
   // const [imageData, setImageData] = useState(null);
 
   useEffect(() => {
@@ -32,6 +33,18 @@ const DashboardAdmin = () => {
         console.error(error);
       });
   }, []);
+
+  const [userData, setUserData] = useState({ name: 'John Doe', email: 'johndoe@example.com' });
+
+  // useEffect(() => {
+  //   // Lakukan permintaan ke API Laravel untuk mendapatkan data pengguna saat komponen dimuat
+  //   fetch('http://localhost:8000/api/admin')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setUserData(data);
+  //     })
+  //     .catch((error) => console.error(error));
+  // }, []);
 
   return (
     <div className="flex">
@@ -90,6 +103,11 @@ const DashboardAdmin = () => {
       <div className="main-content flex-1 bg-lime-100">
         <div className="p-6">
           <h1 className="text-2xl font-bold mb-4 text-center">Dashboard Admin</h1>
+          {/* <div className="card-body">
+                            SELAMAT DATANG <strong className="text-uppercase">{admins.name}</strong>
+                            <hr />
+                            <button onClick={logoutHandler} className="btn btn-md btn-danger">LOGOUT</button>
+                        </div> */}
 
           {/* <div className="flex flex-col md:flex-row bg-white p-6 rounded-lg shadow-lg mt-10">
             <div className="flex-shrink-0 mb-4 md:mr-6">
@@ -110,7 +128,7 @@ const DashboardAdmin = () => {
               Log Out
             </button></Link>
           </div> */}
-
+{/* 
           <Link to="/NewAdmin">
             <button className={styles['rectangle9']}>ADMIN</button>
           </Link>
@@ -140,7 +158,7 @@ const DashboardAdmin = () => {
                       key={admin.id}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     >
-                      <td className="px-6 py-4">{admin.akunadmin}</td>
+                      <td className="px-6 py-4">{admin.name}</td>
                       <td className="px-6 py-4">{admin.password}</td>
                       <td className="px-6 py-4">{admin.email}</td>
                       <td className="px-10 py-4">{admin.telp}</td>
@@ -149,7 +167,24 @@ const DashboardAdmin = () => {
                 })}
               </tbody>
             </table>
-          </div>
+          </div> */}
+
+<div className="col-md-12">
+                   <div className="card border-0 rounded shadow-sm">
+                         <div className="card-body">
+                             SELAMAT DATANG <strong className="text-uppercase">{admin.email}</strong>
+                             <hr />
+                             <Link to='/loginAdmin'>
+                             <button className="btn btn-md btn-danger">LOGOUT</button>
+                             </Link>
+                         </div>
+                     </div>
+                 </div>
+
+{/* <div>
+      <h2>Selamat datang, {userData.name}</h2>
+      <p>Email: {userData.email}</p>
+    </div> */}
 
         </div>
       </div>
@@ -158,3 +193,173 @@ const DashboardAdmin = () => {
 }
 
 export default DashboardAdmin
+
+// //import hook react
+// import { useState, useEffect } from 'react';
+
+// //import hook useHitory from react router dom
+// import { useNavigate } from 'react-router-dom';
+
+// //import axios
+// import axios from 'axios';
+
+// function DashboardAdmin() {
+
+//     //state user
+//     const [admin, setAdmin] = useState({});
+
+//     //define history
+//     const navigate = useNavigate();
+
+//     //token
+//     const token = localStorage.getItem("token");
+
+//     //function "fetchData"
+//     const fetchData = async () => {
+
+//         //set axios header dengan type Authorization + Bearer token
+//         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+//         //fetch user from Rest API
+//         await axios.get('http://localhost:8000/api/admin')
+//         .then((response) => {
+
+//             //set response user to state
+//             setAdmin(response.data);
+//         })
+//     }
+
+//     //hook useEffect
+//     useEffect(() => {
+
+//         //check token empty
+//         if(!token) {
+
+//             //redirect login page
+//            navigate('/loginAdmin');
+//         }
+        
+//         //call function "fetchData"
+//         fetchData();
+//     }, []);
+
+//     //function logout
+//     const logoutHanlder = async () => {
+
+//         //set axios header dengan type Authorization + Bearer token
+//         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+//         //fetch Rest API
+//         await axios.post('http://localhost:8000/api/logout')
+//         .then(() => {
+
+//             //remove token from localStorage
+//             localStorage.removeItem("token");
+
+//             //redirect halaman login
+//             navigate('/loginAdmin');
+//         });
+//     };
+
+//     return (
+//         <div className="container" style={{ marginTop: "50px" }}>
+//             <div className="row justify-content-center">
+//                 <div className="col-md-12">
+//                     <div className="card border-0 rounded shadow-sm">
+//                         <div className="card-body">
+//                             SELAMAT DATANG <strong className="text-uppercase">{admin.name}</strong>
+//                             <hr />
+//                             <button onClick={logoutHanlder} className="btn btn-md btn-danger">LOGOUT</button>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     )
+
+// }
+
+// export default DashboardAdmin;
+
+// //import hook react
+// import React, { useState, useEffect } from 'react';
+
+// //import hook useHitory from react router dom
+// import { useNavigate } from 'react-router-dom';
+
+// //import axios
+// import axios from 'axios';
+
+// function DashboardAdmin() {
+
+//     //state user
+//     const [user, setUser] = useState({});
+
+//     //define history
+//     const navigate = useNavigate();
+
+//     //token
+//     const token = localStorage.getItem("token");
+
+//     //function "fetchData"
+//     const fetchData = async () => {
+
+//         //set axios header dengan type Authorization + Bearer token
+//         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+//         //fetch user from Rest API
+//         await axios.get('http://localhost:8000/api/user')
+//         .then((response) => {
+
+//             //set response user to state
+//             setUser(response.data);
+//         })
+//     }
+
+//     //hook useEffect
+//     useEffect(() => {
+
+//         //check token empty
+//         if(!token) {
+
+//             //redirect login page
+//             navigate('/loginAdmin');
+//         }
+        
+//         //call function "fetchData"
+//         fetchData();
+//     }, []);
+
+//     //function logout
+//     const logoutHanlder = async () => {
+
+//         //set axios header dengan type Authorization + Bearer token
+//         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+//         //fetch Rest API
+//         await axios.post('http://localhost:8000/api/logout')
+//         .then(() => {
+
+//             //remove token from localStorage
+//             localStorage.removeItem("token");
+
+//             //redirect halaman login
+//             navigate('/loginAdmin');
+//         });
+//     };
+
+//     return (
+//         <div className="container" style={{ marginTop: "50px" }}>
+//             <div className="row justify-content-center">
+//                 <div className="col-md-12">
+//                     <div className="card border-0 rounded shadow-sm">
+//                         <div className="card-body">
+//                             SELAMAT DATANG <strong className="text-uppercase">{user.name}</strong>
+//                             <hr />
+//                             <button onClick={logoutHanlder} className="btn btn-md btn-danger">LOGOUT</button>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     )
+
+// }
+
+// export default DashboardAdmin;

@@ -17,6 +17,9 @@ import image from "../assets3/image1.png"; //gambar
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faBookmark, faBookmark as faBookmarkSolid } from '@fortawesome/free-regular-svg-icons';
+// import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
 
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
@@ -27,7 +30,47 @@ export const HomePageUser = () => {
   const [reseps, setReseps] = useState([]);
   const [recipe, setRecipe] = useState([]);
   // const [imageData, setImageData] = useState(null);
-  const {formValues, onChange, errors} = useContext(ResepContext);
+  const { formValues, onChange, errors } = useContext(ResepContext);
+  const token = localStorage.getItem("token");
+  const [user, setUser] = useState({});
+
+  const [keyword, setKeyword] = useState('');
+  const [recipes, setRecipes] = useState([]);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  // const handleSearch = () => {
+  //   axios.get(`http://127.0.0.1:8000/api/reseps/search?keyword=${keyword}`)
+  //     .then((response) => {
+  //       setRecipes(response.data.recipes);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/reseps/search?query=${query}`);
+      setResults(response.data);
+
+      // Setelah menerima hasil pencarian, arahkan pengguna ke halaman hasil pencarian
+      navigate(`/search?query=${query}`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // const handleSearch = () => {
+  //   axios.get(`http://127.0.0.1:8000/api/reseps/search?keyword=${keyword}`)
+  //     .then((response) => {
+  //       setRecipes(response.data.recipes);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }
+
 
   useEffect(() => {
     const getReseps = async () => {
@@ -44,6 +87,50 @@ export const HomePageUser = () => {
     //     console.error(error);
     //   });
   }, []);
+
+  // const fetchData = async () => {
+
+  //   //set axios header dengan type Authorization + Bearer token
+  //   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  //   //fetch user from Rest API
+  //   await axios.get('http://localhost:8000/api/user')
+  //     .then((response) => {
+
+  //       //set response user to state
+  //       setUser(response.data);
+  //     })
+  // }
+
+  // useEffect(() => {
+
+  //   //check token empty
+  //   if (!token) {
+
+  //     //redirect login page
+  //     navigate('/');
+  //   }
+
+  //   //call function "fetchData"
+  //   fetchData();
+  // }, []);
+
+  // //function logout
+  // const logoutHanlder = async () => {
+
+  //   //set axios header dengan type Authorization + Bearer token
+  //   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  //   //fetch Rest API
+  //   await axios.post('http://localhost:8000/api/logout')
+  //     .then(() => {
+
+  //       //remove token from localStorage
+  //       localStorage.removeItem("token");
+
+  //       //redirect halaman login
+  //       navigate('/');
+  //     });
+  // };
+
 
   // const { reseps, getReseps, recipe, deleteSkill } = useContext(ResepContext);
   // useEffect(() => {
@@ -62,6 +149,28 @@ export const HomePageUser = () => {
     alignitems: "center",
     display: "flex",
     flexDirection: "row",
+  };
+
+  // function toggleBookmark(id) {
+  //   axios.post(`/histories/${id}`)
+  //     .then(response => {
+  //       // Handle the response and update the UI
+  //     })
+  //     .catch(error => {
+  //       // Handle errors
+  //     });
+  // }
+
+  const [isBookmarked, setIsBookmarked] = useState(reseps.is_bookmarked);
+
+  const handleBookmarkClick = () => {
+    axios.get(`http://127.0.0.1:8000/api/reseps/${id}/bookmark`)
+      .then(response => {
+        setIsBookmarked(!isBookmarked);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   const navigate = useNavigate();
@@ -101,10 +210,15 @@ export const HomePageUser = () => {
                 type="text"
                 className="border rounded p-1 w-1/7"
                 placeholder="Cari..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
               />
-              <button className="bg-blue-500 text-white rounded p-1 ml-2" type="button">
+
+              {/* <button onClick={handleSearch} className="bg-blue-500 text-white rounded p-1 ml-2" type="button">
                 Cari
-              </button>
+              </button> */}
+
+              <button className="bg-blue-500 text-white rounded p-1 ml-2" onClick={handleSearch}>Cari</button>
             </div>
           </div>
         </Container>
@@ -113,7 +227,7 @@ export const HomePageUser = () => {
       <div className={styles["frame2"]}>
         <div className="bg-slate-300 h-full">
           <div className="">
-            <div className={styles["alltext"]}>
+            {/* <div className={styles["alltext"]}>
               <div className={styles["instance"]}>
                 <div className={styles["text02"]}>
                   <p className={styles["text03"]}>Sarapan</p>
@@ -128,10 +242,11 @@ export const HomePageUser = () => {
               <div className={styles["text08"]}>
                 <p className={styles["text09"]}>Makan malam</p>
               </div>
-            </div>
-            <Link to="/New">
-              <button className={styles['rectangle9']}>NEW</button>
-            </Link>
+            </div> */}
+
+            <button onClick={loginCoba} className={styles['rectangle20']}>NEW</button>
+            <button onClick={loginCoba} className={styles['rectangle9']}>NEW</button>
+
           </div>
 
           <Carousel className="mx-auto mt-2" style={{ width: '800px' }}>
@@ -248,71 +363,35 @@ export const HomePageUser = () => {
                 <img src={save} alt="rectangle" className={styles["save2"]} />
               </div> */}
 
-               
+
               {reseps.map((resep) => {
                 return (
-                // <tr key={resep.id}>
-                //   <td>{resep.image}</td>
-                //   <td>{resep.title}</td>
-                //   <td>{resep.ingredients}</td>
-                //   <td>{resep.step}</td>
-                // </tr>
-               
-               
+                  // <tr key={resep.id}>
+                  //   <td>{resep.image}</td>
+                  //   <td>{resep.title}</td>
+                  //   <td>{resep.ingredients}</td>
+                  //   <td>{resep.step}</td>
+                  // </tr>
 
-                <div key={resep.id} className="col-md-4 col-sm-12">
-                  <Link to={`reseps/${resep.id}`}>
-                    <div className="card">
-                    <img src={resep.image} alt="Uploaded Image" className={styles["foto"]} />
-                      <div className="card-body">
-                        <div className="card-title">
-                          <h4>{resep.title}</h4>
+
+
+                  <div key={resep.id} className="col-md-4 col-sm-12">
+                    <Link to={`reseps/${resep.id}`}>
+                      <div className="card">
+                        <img src={resep.image} alt="Uploaded Image" className={styles["foto"]} />
+                        <div className="card-body">
+                          <div className="card-title">
+                            <h4>{resep.title}</h4>
+                          </div>
                         </div>
+
                       </div>
-                    </div>
-                  </Link>
-                  <img src={save} alt="rectangle" className={styles["save2"]} />
-                </div>
+                    </Link>
+                    <img src={save} alt="rectangle" className={styles["save2"]} />
+                  </div>
                 );
               })}
 
-{/* 
-              <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                  <thead className="">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">
-                        Nama Resep
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Gambar
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Ingredients
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Step
-                      </th>
-                      <th scope="col" className="px-6 py-3"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {reseps.map((resep) => {
-                      return (
-                        <tr
-                          key={resep.id}
-                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                        >
-                          <td className="px-6 py-4">{resep.title}</td>
-                          <td className="px-6 py-4">{resep.image}</td>
-                          <td className="px-6 py-4">{resep.ingredients}</td>
-                          <td className="px-10 py-4">{resep.step}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>  */}
             </div>
           </div>
 
@@ -353,12 +432,8 @@ export const HomePageUser = () => {
             <Link to="/">
               <img src={rumah} alt="rectangle" className={styles["rumah"]} />
             </Link>
-            <Link to="/save">
-              <img src={save} alt="rectangle" className={styles["save"]} />
-            </Link>
-            <Link to="/user">
-              <img src={akun} alt="rectangle" className={styles["akun"]} />
-            </Link>
+              <img src={save} onClick={loginCoba} alt="rectangle" className={styles["save"]} />
+              <img src={akun} onClick={loginCoba} alt="rectangle" className={styles["akun"]} />
           </nav>
 
         </div>

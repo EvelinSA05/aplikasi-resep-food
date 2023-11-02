@@ -21,72 +21,98 @@ axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 const CustomerData = () => {
   const [saved, setSave] = useState([]);
+  const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
   // const [imageData, setImageData] = useState(null);
   const { id } = useParams();
 
+  // useEffect(() => {
+  //   // const getReseps = async () => {
+  //   //   const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
+  //   //   setReseps(apiReseps.data);
+  //   // };
+  //   // getReseps();
+
+  //   // axios.get('http://127.0.0.1:8000/api/histories')
+  //   //   .then(response => {
+  //   //     setSave(response.data);
+  //   //   })
+  //   //   .catch(error => {
+  //   //     console.error(error);
+  //   //   });
+
+  //     const getSave = async () => {
+  //       const apiSave = await axios.get("histories");
+  //       setSave(apiSave.data);
+  //     };
+  //     getSave();
+  //   }, []);
+
   useEffect(() => {
-    // const getReseps = async () => {
-    //   const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
-    //   setReseps(apiReseps.data);
-    // };
-    // getReseps();
+    // Mengambil data status bookmark dari server
+    axios.get('http://127.0.0.1:8000/api/reseps')
+      .then(response => {
+        // Filter hanya resep yang memiliki status bookmark true (1)
+        const filteredRecipes = response.data.filter(reseps => reseps.is_bookmarked === 1);
+        setBookmarkedRecipes(filteredRecipes);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
-    // axios.get('http://127.0.0.1:8000/api/histories')
-    //   .then(response => {
-    //     setSave(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
-
-      const getSave = async () => {
-        const apiSave = await axios.get("histories");
-        setSave(apiSave.data);
-      };
-      getSave();
-    }, []);
+  const handleRemoveBookmark = (recipeId) => {
+    // Kirim permintaan DELETE ke server untuk menghapus tanda bookmark
+    axios.delete(`http://127.0.0.1:8000/api/reseps/${recipeId}/bookmark`)
+      .then(response => {
+        // Jika berhasil, perbarui daftar bookmark di halaman
+        setBookmarkedRecipes(bookmarkedRecipes.filter(recipe => recipe.id !== recipeId));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
 
-    return (
-      <>
+  return (
+    <>
       <Navbar
-      sticky="top"
-      expand="lg"
-      className="bg-success border-bottom"
-      style={{ height: "85px", fontSize: "20px" }}
-    >
-      <Container>
+        sticky="top"
+        expand="lg"
+        className="bg-success border-bottom"
+        style={{ height: "85px", fontSize: "20px" }}
+      >
+        <Container>
 
-        <img
-          src={foodrecipes}
-          alt="rectangle"
-          className={styles['font1']}
-        />
-        <img
-          src={sendok}
-          alt="rectangle"
-          className={styles['sendok']}
-        />
-        <div className={styles['search2']}>
-          <div className="flex items-center">
-            <input
-              type="text"
-              className="border rounded p-1 w-1/7"
-              placeholder="Cari..."
-            />
-            <button className="bg-blue-500 text-white rounded p-1 ml-2" type="button">
-              Cari
-            </button>
+          <img
+            src={foodrecipes}
+            alt="rectangle"
+            className={styles['font1']}
+          />
+          <img
+            src={sendok}
+            alt="rectangle"
+            className={styles['sendok']}
+          />
+          <div className={styles['search2']}>
+            <div className="flex items-center">
+              <input
+                type="text"
+                className="border rounded p-1 w-1/7"
+                placeholder="Cari..."
+              />
+              <button className="bg-blue-500 text-white rounded p-1 ml-2" type="button">
+                Cari
+              </button>
+            </div>
           </div>
-        </div>
-      </Container>
-    </Navbar>
+        </Container>
+      </Navbar>
 
       <div className={styles['card4']}>
-      <div className='bg-slate-300 w-full h-full'>
-        <div className="row">
-          <h1 className="text-center">Histori Resep</h1>
-          {/* <div className="col-md-4 col-sm-12 mt-15">
+        <div className='bg-slate-300 w-full h-full'>
+          <div className="row">
+            <h1 className="text-center">Histori Resep</h1>
+            {/* <div className="col-md-4 col-sm-12 mt-15">
           <Link to="/recipe">
             <div className="card">
               <img src={image} className="card-img-top" alt="..." />
@@ -188,7 +214,7 @@ const CustomerData = () => {
 
         </div> */}
 
-          {/* {saved.map((save) => {
+            {/* {saved.map((save) => {
           return (
             // <tr key={resep.id}>
             //   <td>{resep.image}</td>
@@ -230,7 +256,7 @@ const CustomerData = () => {
           );
         })} */}
 
-      
+
             {/* <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="">
               <tr>
@@ -244,7 +270,7 @@ const CustomerData = () => {
               </tr>
             </thead>
             <tbody> */}
-            {saved.map((save) => {
+            {/* {saved.map((save) => {
               return (
                 <div key={save.id} className="col-md-4 col-sm-12">
                   <Link to={`histories/${save.id}`}>
@@ -260,28 +286,89 @@ const CustomerData = () => {
                   <img src={save2} alt="rectangle" className={styles["save2"]} />
                 </div>
               );
+            })} */}
+
+            {bookmarkedRecipes.map((resep) => {
+              return (
+                <div key={resep.id} className="col-md-4 col-sm-12">
+                  <Link to={`/reseps/${resep.id}`}>
+                    <div className="card mt-10">
+                      <img src={resep.image} alt="Uploaded Image" className={styles["foto"]} />
+                      <div className="card-body">
+                        <div className="card-title">
+                          <h4>{resep.title}</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  <button onClick={() => handleRemoveBookmark(resep.id)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                      <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                    </svg>
+                  </button>
+                  <img src={save2} alt="rectangle" className={styles["save2"]} />
+                </div>
+              );
             })}
             {/* </tbody>
           </table> */}
 
-          <nav className={styles["navbar"]}>
-            <Link to="/">
-              <img src={rumah} alt="rectangle" className={styles["rumah"]} />
-            </Link>
-            <Link to="/save">
-              <img src={save} alt="rectangle" className={styles["save"]} />
-            </Link>
-            <Link to="/user">
-              <img src={akun} alt="rectangle" className={styles["akun"]} />
-            </Link>
-          </nav>
+            <nav className={styles["navbar"]}>
+              <Link to="/dashboardLogin">
+                <img src={rumah} alt="rectangle" className={styles["rumah"]} />
+              </Link>
+              <Link to="/save">
+                <img src={save} alt="rectangle" className={styles["save"]} />
+              </Link>
+              <Link to="/akun">
+                <img src={akun} alt="rectangle" className={styles["akun"]} />
+              </Link>
+            </nav>
 
 
+          </div>
         </div>
       </div>
-      </div>
-      </>
-    );
-  };
+    </>
+  );
+};
 
-  export default CustomerData;
+export default CustomerData;
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+
+// const Bookmark = () => {
+//   const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
+
+//   useEffect(() => {
+//     // Mengambil data status bookmark dari server
+//     axios.get('http://127.0.0.1:8000/api/reseps')
+//       .then(response => {
+//         // Filter hanya resep yang memiliki status bookmark true (1)
+//         const filteredRecipes = response.data.filter(reseps => reseps.is_bookmarked === 1);
+//         setBookmarkedRecipes(filteredRecipes);
+//       })
+//       .catch(error => {
+//         console.error(error);
+//       });
+//   }, []);
+
+//   return (
+//     <div>
+//       <h1>Bookmark</h1>
+//       <ul>
+//         {bookmarkedRecipes.map(resep => (
+//           <li key={resep.id}>
+//             <img src={resep.image} alt="" />
+//             <h2>{resep.title}</h2>
+//             {/* Menampilkan hanya resep yang memiliki status bookmark true (1) */}
+//             Status: Bookmarked
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
+// export default Bookmark;

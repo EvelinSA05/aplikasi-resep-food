@@ -61,12 +61,57 @@
     left: 300px;
     position: relative;
     background-color: white;
-    padding: 10px 20px 50px 20px;
+    padding: 10px 20px 10px 20px;
 }
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(232, 227, 227);
+    padding: 4px;
+    height: 45px;
+  }
+  .rumah {
+    position: relative;
+    height: auto;
+    margin: 0;
+    display: block;
+    bottom: 10px;
+    width: 100%;
+    max-width: 30px;
+    margin-top: 15px;
+    margin-left: 50px;
+  }
+  .save {
+    position: relative;
+    height: auto;
+    margin: 0;
+    display: block;
+    bottom: 40px;
+    width: 100%;
+    max-width: 30px;
+    left: 48%;
+  }
+  .akun {
+    position: relative;
+    height: auto;
+    margin: 0;
+    display: block;
+    bottom: 70px;
+    width: 100%;
+    max-width: 30px;
+    left: 89%;
+  }
+  .navbar {
+    background-color: green;
+    color: white;
+  }
+  
 .rectangle7{
     width: 1000px;
     height: max-content;
-    bottom: 150px;
+    bottom: 50px;
     left: 5px;
     position: relative;
     background-color: white;
@@ -102,13 +147,22 @@
     height: max-content;
     margin: auto;
 }
+.rectangleimg2{
+   position: relative;
+   left: 60px;
+}
 
 .rectangle4{
     width: 100px;
     height: max-content;
     margin: auto;
-    right: 20px;
+    right: 10px;
     position: relative;
+}
+
+.rectangle50 {
+    position: relative;
+    right: 25px;
 }
 
 /* .rectangle0{

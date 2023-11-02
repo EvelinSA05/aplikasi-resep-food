@@ -5,16 +5,61 @@ import styles from "../c_iphone-14-3.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import image from "../assets3/image1.png"; //gambar
 import logo from "../assets3/logo.png"; //gambar
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../c_iphone-14-5.module.css';
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from 'react-router-dom';
+
 
 
 const RecipeAdmin = () => {
   const [recipesA, setRecipeA] = useState([]);
+  const { id } = useParams();
+  const [reseps, setReseps] = useState([]);
+  const navigate = useNavigate();
+  const [results, setResults] = useState([]);
+
+  const [isApprove, setIsApprove] = useState(reseps.approve);
+
+  const handleApproveClick = () => {
+    axios.post(`http://127.0.0.1:8000/api/reseps/${id}/approve`)
+      .then(response => {
+        setIsApprove(!isApprove);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   // const [imageData, setImageData] = useState(null);
+
+  // const [itemId, setItemId] = useState('');
+  // const [deleteMessage, setDeleteMessage] = useState('');
+
+  // const handleDelete = () => {
+  //   axios
+  //     .delete(`http://127.0.0.1:8000/api/reseps/${id}`)
+  //     .then(response => {
+  //       setDeleteMessage(response.data.message);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error deleting item:', error);
+  //     });
+  // };
+
+  const deletePost = async (id) => {
+
+    //delete with api
+    await axios.delete(`http://127.0.0.1:8000/api/reseps/${id}`)
+      .then(() => {
+
+        window.location.reload('http://localhost:3000/recipeAdmin');
+
+
+      })
+  }
 
   useEffect(() => {
     // const getReseps = async () => {
@@ -200,17 +245,47 @@ const RecipeAdmin = () => {
                           key={recipeA.id}
                           className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                         >
+
                           <td className="px-6 py-4">{recipeA.title}</td>
                           <img src={recipeA.image} width={100} height={70} alt="" />
                           <td className="px-6 py-4">{recipeA.namaakun}</td>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="30" color="green" height="30" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-                          </svg>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="30" color="red" height="30" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                          </svg>
+                          <Link to={`/reseps/${recipeA.id}`}>
+                            <div>
+                              <button className="btn btn-warning rounded-sm shadow border-0">DETAIL</button>
+                              
+
+                            </div>
+                          </Link>
+                          <button onClick={handleApproveClick}>
+                                {isApprove ? (
+                                  <div className={styles["rectangleimg2"]}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
+                                      <path fillRule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z" />
+                                    </svg>
+                                  </div>
+                                ) : (
+                                  <div className={styles["rectangleimg2"]}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-bookmark-plus" viewBox="0 0 16 16">
+                                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                      <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4z" />
+                                    </svg>
+                                  </div>
+                                )}
+                              </button>
+                          {/* <div>
+                          <button className="btn btn-warning rounded-sm shadow border-0">ACCEPT</button>
+                          </div> */}
+                          <Link to={`/editAdmin/${recipeA.id}`}>
+                            <div>
+                              <button className="btn btn-primary rounded-sm shadow border-0">UPDATE</button>
+                              <button className="btn btn-danger rounded-sm shadow border-0">DECLINE</button>
+                            </div>
+                          </Link>
+                          <div>
+                            <button onClick={() => deletePost(recipeA.id)} className="btn btn-danger rounded-sm shadow border-0" >
+                              DELETE
+                            </button>
+                          </div>
                         </tr>
                       );
                     })}
