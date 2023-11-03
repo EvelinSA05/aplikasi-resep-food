@@ -9,7 +9,7 @@ import sushi from "../assets3/sushi.jpg";
 import styles from "../c_iphone-14-3.module.css";
 import foodrecipes from "../assets3/foodrecipes.png";
 import sendok from "../assets3/sendok.png";
-import rumah from "../assets3/rumah.png" ;
+import rumah from "../assets3/rumah.png";
 import save from "../assets3/save.png";
 import akun from "../assets3/akun.png";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -32,6 +32,8 @@ export const HomePageUser = () => {
   const [user, setUser] = useState({});
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
+
+  const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
 
   // const fetchData = async () => {
 
@@ -77,21 +79,77 @@ export const HomePageUser = () => {
 
 
 
-  useEffect(() => {
-    const getReseps = async () => {
-      const apiReseps = await axios.get("reseps");
-      setReseps(apiReseps.data);
-    };
-    getReseps();
+  // useEffect(() => {
+  //   const getReseps = async () => {
+  //     const apiReseps = await axios.get("reseps");
+  //     setReseps(apiReseps.data);
+  //   };
+  //   getReseps();
 
-    // axios.get('http://127.0.0.1:8000/api/reseps')
-    //   .then(response => {
-    //     setReseps(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
+  // useEffect(() => {
+  //   // Mengambil data status bookmark dari server
+  //   axios.get('http://127.0.0.1:8000/api/reseps')
+  //     .then(response => {
+  //       // Filter hanya resep yang memiliki status bookmark true (1)
+  //       const filteredRecipes = response.data.filter(reseps => reseps.is_approved === 1);
+  //       setBookmarkedRecipes(filteredRecipes);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }, []);
+
+  const [approvedRecipes, setApprovedRecipes] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/reseps')
+      .then(response => {
+        setRecipes(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
+
+  useEffect(() => {
+    // Filter resep yang disetujui
+    const filteredRecipes = recipes.filter(recipe => recipe.is_approve);
+    setApprovedRecipes(filteredRecipes);
+  }, [recipes]);
+
+  const handleBookmarkClick = (recipeId) => {
+    axios.post(`http://127.0.0.1:8000/api/reseps/${recipeId}/approve`)
+      .then(response => {
+        // Di sini, kita hanya memperbarui state `recipes`, 
+        // dan perubahan akan memicu re-render untuk state `approvedRecipes`.
+        setRecipes(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  // const handleRemoveBookmark = (recipeId) => {
+  //   // Kirim permintaan DELETE ke server untuk menghapus tanda bookmark
+  //   axios.delete(`http://127.0.0.1:8000/api/reseps/${recipeId}/bookmark`)
+  //     .then(response => {
+  //       // Jika berhasil, perbarui daftar bookmark di halaman
+  //       setBookmarkedRecipes(bookmarkedRecipes.filter(recipe => recipe.id !== recipeId));
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // };
+
+  // axios.get('http://127.0.0.1:8000/api/reseps')
+  //   .then(response => {
+  //     setReseps(response.data);
+  //   })
+  //   .catch(error => {
+  //     console.error(error);
+  //   });
+  // }, []);
 
   // const fetchData = async () => {
 
@@ -201,7 +259,7 @@ export const HomePageUser = () => {
           />
           <div className={styles['search2']}>
             <div className="flex items-center">
-            <input
+              <input
                 type="text"
                 className="border rounded p-1 w-1/7"
                 placeholder="Cari..."
@@ -239,7 +297,7 @@ export const HomePageUser = () => {
             <Link to="/New">
               <button className={styles['rectangle9']}>NEW</button>
             </Link>
-          
+
 
           </div>
 
@@ -380,6 +438,50 @@ export const HomePageUser = () => {
                   </div>
                 );
               })} */}
+
+              {/* {bookmarkedRecipes.map((resep) => {
+                return (
+                  <div key={resep.id} className="col-md-4 col-sm-12">
+                    <Link to={`/reseps/${resep.id}`}>
+                      <div className="card mt-10">
+                        <img src={resep.image} alt="Uploaded Image" className={styles["foto"]} />
+                        <div className="card-body">
+                          <div className="card-title">
+                            <h4>{resep.title}</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                    <button onClick={() => handleRemoveBookmark(resep.id)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                      </svg>
+                    </button>
+                    <img src={save2} alt="rectangle" className={styles["save2"]} />
+                  </div>
+                );
+              })} */}
+
+              {approvedRecipes.map(recipe => (
+                  <div key={recipe.id} className="col-md-4 col-sm-12">
+                    <Link to={`/reseps/${recipe.id}/login`}>
+                      <div className="card mt-10">
+                        <img src={recipe.image} alt="Uploaded Image" className={styles["foto"]} />
+                        <div className="card-body">
+                          <div className="card-title">
+                            <h4>{recipe.title}</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                    {/* <button onClick={() => handleRemoveBookmark(recipe.id)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                      </svg>
+                    </button>
+                    <img src={save2} alt="rectangle" className={styles["save2"]} /> */}
+                  </div>
+              ))}
 
               {/* 
               <div className="relative overflow-x-auto">

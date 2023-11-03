@@ -18,6 +18,7 @@ import EditAdmin from "./components/EditAdmin";
 import Register from "./components/Register";
 import RegisterAdmin from "./components/RegisterAdmin";
 import DashboardAdmin from "./components/DashboardAdmin";
+import Approve from "./components/Approve";
 import DashboardLogin from "./components/DashboardLogin";
 import Akun from "./components/Akun";
 import History from "./components/History";
@@ -55,6 +56,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/registerAdmin" element={<RegisterAdmin />} />
         <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+        <Route path="/approve" element={<Approve />} />
         <Route path="/akun" element={<Akun />} />
         <Route path="/dashboardLogin" element={<DashboardLogin />} />
         <Route path="/history" element={<History />} />

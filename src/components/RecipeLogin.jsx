@@ -69,6 +69,14 @@ const Recipe = () => {
             .catch(error => {
                 console.error(error);
             });
+
+        // axios.get(`http://127.0.0.1:8000/api/reseps/${id}/approve`)
+        // .then(response => {
+        //     setIsBookmarked(!isBookmarked);
+        // })
+        // .catch(error => {
+        //     console.error(error);
+        // });
     };
 
      //hook useEffect

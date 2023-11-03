@@ -18,20 +18,38 @@ const RecipeAdmin = () => {
   const [recipesA, setRecipeA] = useState([]);
   const { id } = useParams();
   const [reseps, setReseps] = useState([]);
+  const [resep, setResep] = useState([]);
   const navigate = useNavigate();
   const [results, setResults] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
-  const [isApprove, setIsApprove] = useState(reseps.approve);
+  const [isApprove, setIsApprove] = useState(reseps.is_approve);
 
-  const handleApproveClick = () => {
-    axios.post(`http://127.0.0.1:8000/api/reseps/${id}/approve`)
+  const handleBookmarkClick = (recipeId) => {
+    axios.post(`http://127.0.0.1:8000/api/reseps/${recipeId}/approve`)
       .then(response => {
-        setIsApprove(!isApprove);
+        const updatedRecipes = recipes.map(recipe => {
+          if (recipe.id === recipeId) {
+            return { ...recipe, is_approve: !recipe.is_approve };
+          }
+          return recipe;
+        });
+        setRecipes(updatedRecipes);
       })
       .catch(error => {
         console.error(error);
       });
   };
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/reseps/')
+      .then(response => {
+        setRecipes(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
 
   // const [imageData, setImageData] = useState(null);
 
@@ -61,22 +79,22 @@ const RecipeAdmin = () => {
       })
   }
 
-  useEffect(() => {
-    // const getReseps = async () => {
-    //   const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
-    //   setReseps(apiReseps.data);
-    // };
-    // getReseps();
+  // useEffect(() => {
+  //   // const getReseps = async () => {
+  //   //   const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
+  //   //   setReseps(apiReseps.data);
+  //   // };
+  //   // getReseps();
 
-    axios.get('http://127.0.0.1:8000/api/reseps')
-      .then(response => {
-        setRecipeA(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  //   axios.get('http://127.0.0.1:8000/api/reseps')
+  //     .then(response => {
+  //       setRecipeA(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
 
-  }, []);
+  // }, []);
 
   // useEffect(() => {
   //   const getRecipesA = async () => {
@@ -239,24 +257,24 @@ const RecipeAdmin = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {recipesA.map((recipeA) => {
+                    {recipes.map((recipe) => {
                       return (
                         <tr
-                          key={recipeA.id}
+                          key={recipe.id}
                           className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                         >
 
-                          <td className="px-6 py-4">{recipeA.title}</td>
-                          <img src={recipeA.image} width={100} height={70} alt="" />
-                          <td className="px-6 py-4">{recipeA.namaakun}</td>
-                          <Link to={`/reseps/${recipeA.id}`}>
+                          <td className="px-6 py-4">{recipe.title}</td>
+                          <img src={recipe.image} width={100} height={70} alt="" />
+                          <td className="px-6 py-4">{recipe.namaakun}</td>
+                          <Link to={`/reseps/${recipe.id}`}>
                             <div>
                               <button className="btn btn-warning rounded-sm shadow border-0">DETAIL</button>
-                              
+
 
                             </div>
                           </Link>
-                          <button onClick={handleApproveClick}>
+                          {/* <button onClick={() => handleApproveClick(recipeA.id)}>
                                 {isApprove ? (
                                   <div className={styles["rectangleimg2"]}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
@@ -271,18 +289,36 @@ const RecipeAdmin = () => {
                                     </svg>
                                   </div>
                                 )}
-                              </button>
+                              </button> */}
                           {/* <div>
                           <button className="btn btn-warning rounded-sm shadow border-0">ACCEPT</button>
                           </div> */}
-                          <Link to={`/editAdmin/${recipeA.id}`}>
+                          <td>
+                            <button onClick={() => handleBookmarkClick(recipe.id)}>
+                              {recipe.is_approve ? (
+                                <div>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z" />
+                                  </svg>
+                                </div>
+                              ) : (
+                                <div>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-bookmark-plus" viewBox="0 0 16 16">
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                    <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4z" />
+                                  </svg>
+                                </div>
+                              )}
+                            </button>
+                          </td>
+                          <Link to={`/editAdmin/${recipe.id}`}>
                             <div>
                               <button className="btn btn-primary rounded-sm shadow border-0">UPDATE</button>
                               <button className="btn btn-danger rounded-sm shadow border-0">DECLINE</button>
                             </div>
                           </Link>
                           <div>
-                            <button onClick={() => deletePost(recipeA.id)} className="btn btn-danger rounded-sm shadow border-0" >
+                            <button onClick={() => deletePost(recipe.id)} className="btn btn-danger rounded-sm shadow border-0" >
                               DELETE
                             </button>
                           </div>
