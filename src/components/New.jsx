@@ -14,13 +14,43 @@ export const New = () => {
   // useEffect(() => {
   //   setErrors({});
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({ ...formData, [name]: value });
+  // };
+
+  //  const [formData, setFormData] = useState({
+  //   name: '',
+  //   email: '',
+  // });
+
+  const [user, setUser] = useState({});
+  const [id, setId] = useState({});
+
+  //function "fetchData"
+  const fetchData = async () => {
+
+    //set axios header dengan type Authorization + Bearer token
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    //fetch user from Rest API
+    await axios.get('http://localhost:8000/api/user')
+      .then((response) => {
+
+        //set response user to state
+        setName(response.data.name);
+        setId(response.data.id);
+      })
+  }
+
   const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [step, setStep] = useState('');
-  const [namaakun, setNamaAkun] = useState('');
+  const [name, setName] = useState('');
 
   const [errors, setErrors] = useState([]);
+  console.log(user);
+
 
   const navigate = useNavigate();
 
@@ -37,7 +67,7 @@ export const New = () => {
     formData.append('title', title);
     formData.append('ingredients', ingredients);
     formData.append('step', step);
-    formData.append('namaakun', namaakun);
+    formData.append('name', name);
 
     await axios.post("reseps", formData)
       .then(() => {
@@ -51,6 +81,24 @@ export const New = () => {
         setErrors(error.response.data);
       })
   }
+
+  const token = localStorage.getItem("token");
+
+
+  //hook useEffect
+  useEffect(() => {
+
+    //check token empty
+    if (!token) {
+
+      //redirect login page
+      navigate('/');
+    }
+
+    //call function "fetchData"
+    fetchData();
+  }, []);
+  console.log(name)
 
 
   return (
@@ -135,28 +183,28 @@ export const New = () => {
     // </div>
 
     <div className={styles["frame2"]}>
-    <div className="bg-slate-300 h-full w-full">
-      <form
-        encType="multipart/form-data"
-        onSubmit={storeResep}
+      <div className="bg-slate-300 h-full w-full">
+        <form
+          encType="multipart/form-data"
+          onSubmit={storeResep}
 
-        className="max-w-md mx-auto p-4 bg-white shadow-md rounded-sm"
-      >
-        <div className="space-y-6">
-          <div className="mb-4">
-            <label htmlFor="name" className="block mb-2 text-sm font-medium">
-              Nama Resep
-            </label>
-            <input
-              name="title"
-              onChange={(e) => setTitle(e.target.value)}
-              className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
-            />
-            {errors.title && (
-              <span className="text-sm text-red-400">{errors.title[0]}</span>
-            )}
-          </div>
-          {/* <div className="mb-4">
+          className="max-w-md mx-auto p-4 bg-white shadow-md rounded-sm"
+        >
+          <div className="space-y-6">
+            <div className="mb-4">
+              <label htmlFor="name" className="block mb-2 text-sm font-medium">
+                Nama Resep
+              </label>
+              <input
+                name="title"
+                onChange={(e) => setTitle(e.target.value)}
+                className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
+              />
+              {errors.title && (
+                <span className="text-sm text-red-400">{errors.title[0]}</span>
+              )}
+            </div>
+            {/* <div className="mb-4">
           <label htmlFor="slug" className="block mb-2 text-sm font-medium">
             Slug
           </label>
@@ -171,70 +219,87 @@ export const New = () => {
             <span className="text-sm text-red-400">{errors.image[0]}</span>
           )}
         </div> */}
-          <div className="mb-4">
-            <label htmlFor="name" className="block mb-2 text-sm font-medium">
-              Image
-            </label>
-            <input
-            type='file'
-              name="ingredients"
-              onChange={handleFileChange}
-              className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
-            />
-            {errors.ingredients && (
-              <span className="text-sm text-red-400">{errors.ingredients[0]}</span>
-            )}
+            <div className="mb-4">
+              <label htmlFor="name" className="block mb-2 text-sm font-medium">
+                Image
+              </label>
+              <input
+                type='file'
+                name="ingredients"
+                onChange={handleFileChange}
+                className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
+              />
+              {errors.ingredients && (
+                <span className="text-sm text-red-400">{errors.ingredients[0]}</span>
+              )}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="name" className="block mb-2 text-sm font-medium">
+                Ingredients
+              </label>
+              <input
+                name="ingredients"
+                // value={formValues.ingredients}
+                onChange={(e) => setIngredients(e.target.value)}
+                className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
+              />
+              {errors.ingredients && (
+                <span className="text-sm text-red-400">{errors.ingredients[0]}</span>
+              )}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="name" className="block mb-2 text-sm font-medium">
+                Step
+              </label>
+              <input
+                name="step"
+                // value={formValues.step}
+                onChange={(e) => setStep(e.target.value)}
+                className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
+              />
+              {errors.step && (
+                <span className="text-sm text-red-400">{errors.step[0]}</span>
+              )}
+            </div>
+            {/* <div className="mb-4">
+          {user.name}
+          </div> */}
+            <div className="mb-4" hidden>
+              <label htmlFor="name" className="block mb-2 text-sm font-medium">
+                Nama Akun
+              </label>
+              <input
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
+              />
+              {errors.namaakun && (
+                <span className="text-sm text-red-400">{errors.namaakun[0]}</span>
+              )}
+            </div>
+            {/* <div className="mb-4">
+              <label htmlFor="name" className="block mb-2 text-sm font-medium">
+                Id User
+              </label>
+              <input
+                name="id"
+                value={user.id}
+                onChange={(e) => setName(e.target.value)}
+                className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
+              />
+              {errors.namaakun && (
+                <span className="text-sm text-red-400">{errors.namaakun[0]}</span>
+              )}
+            </div> */}
           </div>
-          <div className="mb-4">
-            <label htmlFor="name" className="block mb-2 text-sm font-medium">
-              Ingredients
-            </label>
-            <input
-              name="ingredients"
-              // value={formValues.ingredients}
-              onChange={(e) => setIngredients(e.target.value)}
-              className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
-            />
-            {errors.ingredients && (
-              <span className="text-sm text-red-400">{errors.ingredients[0]}</span>
-            )}
+          <div className="my-4">
+            <button className="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md">
+              Store
+            </button>
           </div>
-          <div className="mb-4">
-            <label htmlFor="name" className="block mb-2 text-sm font-medium">
-              Step
-            </label>
-            <input
-              name="step"
-              // value={formValues.step}
-              onChange={(e) => setStep(e.target.value)}
-              className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
-            />
-            {errors.step && (
-              <span className="text-sm text-red-400">{errors.step[0]}</span>
-            )}
-          </div>
-          <div className="mb-4">
-            <label htmlFor="name" className="block mb-2 text-sm font-medium">
-              Nama Akun
-            </label>
-            <input
-              name="namaakun"
-              // value={formValues.namaakun}
-              onChange={(e) => setNamaAkun(e.target.value)}
-              className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
-            />
-            {errors.namaakun && (
-              <span className="text-sm text-red-400">{errors.namaakun[0]}</span>
-            )}
-          </div>
-        </div>
-        <div className="my-4">
-          <button className="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md">
-            Store
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
     </div>
   );
 };

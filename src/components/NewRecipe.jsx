@@ -20,11 +20,49 @@ const NewRecipe = () => {
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [step, setStep] = useState('');
-  const [namaakun, setNamaAkun] = useState('');
+  const [name, setName] = useState('');
+
+  const [user, setUser] = useState({});
+  const [id, setId] = useState({});
 
   const [errors, setErrors] = useState([]);
 
+  const token = localStorage.getItem("token");
+
   const navigate = useNavigate();
+
+  console.log(user);
+
+  //function "fetchData"
+  const fetchData = async () => {
+
+    //set axios header dengan type Authorization + Bearer token
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    //fetch user from Rest API
+    await axios.get('http://localhost:8000/api/user')
+      .then((response) => {
+
+        //set response user to state
+        setName(response.data.name);
+        setId(response.data.id);
+      })
+  }
+
+  
+  //hook useEffect
+  useEffect(() => {
+
+    //check token empty
+    if (!token) {
+
+      //redirect login page
+      navigate('/loginAdmin');
+    }
+
+    //call function "fetchData"
+    fetchData();
+  }, []);
+  console.log(name)
 
   const handleFileChange = (e) => {
     setImage(e.target.files[0]);
@@ -39,7 +77,7 @@ const NewRecipe = () => {
     formData.append('title', title);
     formData.append('ingredients', ingredients);
     formData.append('step', step);
-    formData.append('namaakun', namaakun);
+    formData.append('name', name);
 
     await axios.post("reseps", formData)
       .then(() => {
@@ -192,14 +230,14 @@ const NewRecipe = () => {
               <span className="text-sm text-red-400">{errors.step[0]}</span>
             )}
           </div>
-          <div className="mb-4">
+          <div className="mb-4" hidden>
             <label htmlFor="name" className="block mb-2 text-sm font-medium">
               Nama Akun
             </label>
             <input
-              name="namaakun"
-              // value={formValues.namaakun}
-              onChange={(e) => setNamaAkun(e.target.value)}
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2"
             />
             {errors.namaakun && (

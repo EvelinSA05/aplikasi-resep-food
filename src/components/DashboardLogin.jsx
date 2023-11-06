@@ -33,7 +33,86 @@ export const HomePageUser = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
 
+
+
   const [bookmarkedRecipes, setBookmarkedRecipes] = useState([]);
+
+  // const data = 'http://localhost:8000/api/user';
+  // const [userData, setUserData] = useState(null);
+
+  // console.log(data);
+
+
+
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     fetch('/api/user', {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => setUserData(data))
+  //       .catch((error) => {
+  //         console.error('Error fetching user data:', error);
+  //         // Handle error, e.g., token expired
+  //       });
+  //   }
+  // }, []);
+
+  // if (!userData) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // const filteredData = data.filter((item) => item.name === userData.name);
+
+  // return (
+  //   <div>
+  //     <h2>Dashboard</h2>
+  //     <p>Welcome, {userData.name}!</p>
+  //     <p>Email: {userData.email}</p>
+
+  //     <h3>Data yang sesuai dengan pengguna ini:</h3>
+  //     {filteredData.map((item, index) => (
+  //       <div key={index}>
+  //         <p>Name: {item.name}</p>
+  //         <p>Email: {item.email}</p>
+  //         {/* Tampilkan data lain yang sesuai di sini */}
+  //       </div>
+  //     ))}
+  //   </div>
+  // );
+
+  // //function "fetchData"
+  // const fetchData = async () => {
+
+  //   //set axios header dengan type Authorization + Bearer token
+  //   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  //   //fetch user from Rest API
+  //   await axios.get('http://localhost:8000/api/user')
+  //     .then((response) => {
+
+  //       //set response user to state
+  //       setUser(response.data);
+  //     })
+  // }
+
+  // //hook useEffect
+  // useEffect(() => {
+
+  //   //check token empty
+  //   if (!token) {
+
+  //     //redirect login page
+  //     navigate('/');
+  //   }
+
+  //   //call function "fetchData"
+  //   fetchData();
+  // }, []);
+
 
   // const fetchData = async () => {
 
@@ -118,6 +197,15 @@ export const HomePageUser = () => {
     setApprovedRecipes(filteredRecipes);
   }, [recipes]);
 
+  console.log(recipes)
+
+  useEffect(() => {
+    // Filter resep yang disetujui
+    const filteredRecipes = recipes.filter(recipe => recipe.is_approve);
+    setApprovedRecipes(filteredRecipes);
+  }, [recipes]);
+
+
   const handleBookmarkClick = (recipeId) => {
     axios.post(`http://127.0.0.1:8000/api/reseps/${recipeId}/approve`)
       .then(response => {
@@ -129,6 +217,8 @@ export const HomePageUser = () => {
         console.error(error);
       });
   };
+
+
 
   // const handleRemoveBookmark = (recipeId) => {
   //   // Kirim permintaan DELETE ke server untuk menghapus tanda bookmark
@@ -236,6 +326,22 @@ export const HomePageUser = () => {
       console.log("Login dibatalkan.");
     }
   };
+
+  // return (
+  //   <div>
+  //     {/* <h2>Dashboard</h2>
+  //     <p>Welcome, {userData.name}!</p>
+  //     <p>Email: {userData.email}</p> */}
+
+  //     <h3>Data yang sesuai dengan pengguna ini:</h3>
+  //     {filteredData.map((item, index) => (
+  //       <div key={index}>
+  //         <p>Name: {item.name}</p>
+  //         <p>Email: {item.title}</p>
+  //       </div>
+  //     ))}
+  //   </div>
+  // );
 
   return (
     <>
@@ -414,7 +520,7 @@ export const HomePageUser = () => {
                 </Link>
                 <img src={save} alt="rectangle" className={styles["save2"]} />
               </div> */}
-              <h2 className="center">My Recipe</h2>
+              <h2 className="center">Recipe</h2>
               {/* {reseps.map((resep) => {
                 return (
                   // <tr key={resep.id}>
@@ -463,25 +569,30 @@ export const HomePageUser = () => {
               })} */}
 
               {approvedRecipes.map(recipe => (
-                  <div key={recipe.id} className="col-md-4 col-sm-12">
-                    <Link to={`/reseps/${recipe.id}/login`}>
-                      <div className="card mt-10">
-                        <img src={recipe.image} alt="Uploaded Image" className={styles["foto"]} />
-                        <div className="card-body">
-                          <div className="card-title">
-                            <h4>{recipe.title}</h4>
-                          </div>
+                <div key={recipe.id} className="col-md-4 col-sm-12">
+                  <Link to={`/reseps/${recipe.id}/login`}>
+                    <div className="card mt-10">
+                      <img src={recipe.image} alt="Uploaded Image" className={styles["foto"]} />
+                      <div className="card-body">
+                        <div className="card-title">
+                          <h4>{recipe.title}</h4>
+                          <h8>{recipe.name}</h8>
                         </div>
                       </div>
-                    </Link>
-                    {/* <button onClick={() => handleRemoveBookmark(recipe.id)}>
+                    </div>
+                  </Link>
+                  {/* <button onClick={() => handleRemoveBookmark(recipe.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
                         <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
                       </svg>
                     </button>
                     <img src={save2} alt="rectangle" className={styles["save2"]} /> */}
-                  </div>
+                </div>
               ))}
+
+
+
+
 
               {/* 
               <div className="relative overflow-x-auto">

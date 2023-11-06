@@ -154,7 +154,7 @@ function SearchResults() {
 
 
           <div key={resep.id} className="col-md-4 col-sm-12">
-            <Link to={`/reseps/${resep.id}`}>
+            <Link to={`/reseps/${resep.id}/login`}>
               <div className="card">
                 <img src={resep.image} alt="Uploaded Image" className={styles["foto"]} />
                 <div className="card-body">

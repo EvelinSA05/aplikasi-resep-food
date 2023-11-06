@@ -22,6 +22,8 @@ const RecipeAdmin = () => {
   const navigate = useNavigate();
   const [results, setResults] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [user, setUser] = useState([]);
+  const token = localStorage.getItem('token');
 
   const [isApprove, setIsApprove] = useState(reseps.is_approve);
 
@@ -40,15 +42,21 @@ const RecipeAdmin = () => {
         console.error(error);
       });
   };
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/reseps/')
-      .then(response => {
-        setRecipes(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+
+  if (!token) {
+
+    //redirect login page
+    navigate('/');
+}
+  // useEffect(() => {
+  //   axios.get('http://127.0.0.1:8000/api/user/')
+  //     .then(response => {
+  //       setRecipes(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
 
   // const [imageData, setImageData] = useState(null);
@@ -79,22 +87,33 @@ const RecipeAdmin = () => {
       })
   }
 
-  // useEffect(() => {
-  //   // const getReseps = async () => {
-  //   //   const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
-  //   //   setReseps(apiReseps.data);
-  //   // };
-  //   // getReseps();
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/reseps/')
+      .then(response => {
+        setRecipes(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
-  //   axios.get('http://127.0.0.1:8000/api/reseps')
-  //     .then(response => {
-  //       setRecipeA(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
 
-  // }, []);
+  useEffect(() => {
+    // const getReseps = async () => {
+    //   const apiReseps = await axios.get("http://127.0.0.1:8000/api/reseps");
+    //   setReseps(apiReseps.data);
+    // };
+    // getReseps();
+
+    axios.get('http://127.0.0.1:8000/api/reseps')
+      .then(response => {
+        setRecipeA(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+  }, []);
 
   // useEffect(() => {
   //   const getRecipesA = async () => {
@@ -266,14 +285,16 @@ const RecipeAdmin = () => {
 
                           <td className="px-6 py-4">{recipe.title}</td>
                           <img src={recipe.image} width={100} height={70} alt="" />
-                          <td className="px-6 py-4">{recipe.namaakun}</td>
-                          <Link to={`/reseps/${recipe.id}`}>
-                            <div>
-                              <button className="btn btn-warning rounded-sm shadow border-0">DETAIL</button>
-
-
-                            </div>
-                          </Link>
+                          <td className="px-6 py-4">{recipe.name}</td>
+                          <td>
+                            <Link to={`/reseps/${recipe.id}/admin`}>
+                              <td>
+                                <div>
+                                  <button className="btn btn-warning rounded-sm shadow border-0">DETAIL</button>
+                                </div>
+                              </td>
+                            </Link>
+                          </td>
                           {/* <button onClick={() => handleApproveClick(recipeA.id)}>
                                 {isApprove ? (
                                   <div className={styles["rectangleimg2"]}>
@@ -297,35 +318,30 @@ const RecipeAdmin = () => {
                             <button onClick={() => handleBookmarkClick(recipe.id)}>
                               {recipe.is_approve ? (
                                 <div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
-                                    <path fillRule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z" />
-                                  </svg>
+                                  <button className="btn btn-success rounded-sm shadow border-0">APPROVED</button>
                                 </div>
                               ) : (
                                 <div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-bookmark-plus" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                    <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4z" />
-                                  </svg>
+                                  <button className="btn btn-light rounded-sm shadow border-0">APPROVED</button>
                                 </div>
                               )}
                             </button>
                           </td>
-                          <Link to={`/editAdmin/${recipe.id}`}>
-                            <div>
+                          <td>
+                            <Link to={`/editAdmin/${recipe.id}`}>
                               <button className="btn btn-primary rounded-sm shadow border-0">UPDATE</button>
-                              <button className="btn btn-danger rounded-sm shadow border-0">DECLINE</button>
-                            </div>
-                          </Link>
-                          <div>
+                            </Link>
+                          </td>
+                          <td>
                             <button onClick={() => deletePost(recipe.id)} className="btn btn-danger rounded-sm shadow border-0" >
                               DELETE
                             </button>
-                          </div>
+                          </td>
                         </tr>
                       );
                     })}
                   </tbody>
+
                 </table>
               </div>
             </div>

@@ -40,7 +40,7 @@ const Recipe = () => {
 
     const [user, setUser] = useState({});
 
-    
+
     //token
     const token = localStorage.getItem("token");
 
@@ -79,8 +79,8 @@ const Recipe = () => {
         // });
     };
 
-     //hook useEffect
-     useEffect(() => {
+    //hook useEffect
+    useEffect(() => {
 
         //check token empty
         if (!token) {
@@ -231,7 +231,7 @@ const Recipe = () => {
                         <p className={styles["rectangle4"]}>Simpan Resep</p>
                     </div>
                     <div className="container" style={{ marginTop: "50px" }}>
-                {/* <div className="row justify-content-center">
+                        {/* <div className="row justify-content-center">
                     <div className="col-md-12">
                         <div className="card border-0 rounded shadow-sm">
                             <div className="card-body">
@@ -246,15 +246,15 @@ const Recipe = () => {
                         </div>
                     </div>
                 </div> */}
-            </div>
-                    
+                    </div>
+
 
                     {/* <div className={styles["rectangleSimpan"]}>
                         <img src={pu} alt="background" className={styles["rectangleimg"]} />
                         <p className={styles["rectangle4"]}>Like</p>
                     </div> */}
                 </div>
-                
+
 
                 <div className={styles["rectangle7"]}>
                     <div className="container text-center">
@@ -297,7 +297,7 @@ const Recipe = () => {
 
                 </div>
             </div>
-            
+
             <nav className={styles["navbar"]}>
                 <Link to="/dashboardLogin">
                     <img src={rumah} alt="rectangle" className={styles["rumah"]} />

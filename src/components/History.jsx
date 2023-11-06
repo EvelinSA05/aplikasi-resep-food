@@ -109,23 +109,23 @@ const History = () => {
           <h1 className="text-2xl font-bold mb-4 text-center">BookMark User</h1>
 
           <div className="relative overflow-x-auto">
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Nama Resep
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Gambar
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Nama Akun
-              </th>
-              <th scope="col" className="px-6 py-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* {histories.map((history) => {
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Nama Resep
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Gambar
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Nama Akun
+                  </th>
+                  <th scope="col" className="px-6 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* {histories.map((history) => {
               return (
                 <tr
                   key={history.id}
@@ -137,26 +137,26 @@ const History = () => {
                 </tr>
               );
             })} */}
-            {bookmarkedRecipes.map((resep) => {
-              return (
-                <tr
-                  key={resep.id}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                >
-                  <td className="px-6 py-4">{resep.title}</td>
-                  <img src={resep.image} width={100} height={70} alt="" />
-                  <td className="px-6 py-4">{resep.namaakun}</td>
-                  <Link to={`/reseps/${resep.id}`}>
-                            <div>
+                {bookmarkedRecipes.map((resep) => {
+                  return (
+                    <tr
+                      key={resep.id}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    >
+                      <td className="px-6 py-4">{resep.title}</td>
+                      <img src={resep.image} width={100} height={70} alt="" />
+                      <td className="px-6 py-4">{resep.name}</td>
+                      <Link to={`/reseps/${resep.id}/admin`}>
+                        <div>
                           <button className="btn btn-success rounded-sm shadow border-0">DETAIL</button>
-                          </div>
-                          </Link>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        </div>
+                        </div>
+                      </Link>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
 
         </div>
       </div>

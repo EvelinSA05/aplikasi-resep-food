@@ -21,6 +21,7 @@ function Akun() {
     //state user
     const [user, setUser] = useState({});
     const [results, setResults] = useState([]);
+    const roles = localStorage.getItem("roles");
 
     //define history
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ function Akun() {
     
 
     //token
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token-user");
 
     //function "fetchData"
     const fetchData = async () => {
@@ -54,6 +55,12 @@ function Akun() {
                 setUser(response.data);
             })
     }
+
+    
+    if(roles) {
+        navigate('/akun');
+      }
+
 
     //hook useEffect
     useEffect(() => {
@@ -154,3 +161,13 @@ function Akun() {
 }
 
 export default Akun;
+
+// import React from 'react'
+
+// const Akun = () => {
+//   return (
+//     <div>Berhasil Login</div>
+//   )
+// }
+
+// export default Akun

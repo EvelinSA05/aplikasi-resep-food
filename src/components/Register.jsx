@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 //import hook useHitory from react router dom
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 //import axios
 import axios from 'axios';
@@ -12,6 +13,7 @@ function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [role, setRole] = useState("user");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
     //define state validation
@@ -31,6 +33,7 @@ function Register() {
         formData.append('name', name);
         formData.append('email', email);
         formData.append('password', password);
+        formData.append('role', role);
         formData.append('password_confirmation', passwordConfirmation);
 
         //send data to server
@@ -103,6 +106,14 @@ function Register() {
                                             <label className="form-label">KONFIRMASI PASSWORD</label>
                                             <input type="password" className="form-control" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} placeholder="Masukkan Konfirmasi Password" />
                                         </div>
+                                        <input hidden disabled type="text" value={role} onChange={(e) => setRole(e.target.value)} className="w-full mt-4 px-4 py-2 text-sm border rounded-md focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-600" placeholder="Name" />
+                                        {
+                                            errors.role && (
+                                                <div className="px-4 py-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                                                    <span className="font-medium">{errors.role[0]}</span>
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                                 <button type="submit" className="btn btn-primary">REGISTER</button>
@@ -134,7 +145,7 @@ function Register() {
 
 //     const registerHandler = async (e) => {
 //       e.preventDefault();
-      
+
 //       const formData = new FormData();
 
 //       formData.append('name', name);
@@ -144,12 +155,12 @@ function Register() {
 
 //       await axios.post('http://localhost:8000/api/register', formData)
 //       .then(() => {
-          
+
 //           navigate('/login');
 
 //       })
 //       .catch(error => {
-          
+
 //           setErrors(error.response.data);
 //       })
 //   };

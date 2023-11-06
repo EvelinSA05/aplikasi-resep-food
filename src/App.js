@@ -14,6 +14,7 @@ import Save from "./components/Save";
 import Saran from "./components/Saran";
 import SaveAdmin from "./components/SaveAdmin";
 import RecipeAdmin from "./components/RecipeAdmin";
+import ResepAdmin from "./components/ResepAdmin";
 import EditAdmin from "./components/EditAdmin";
 import Register from "./components/Register";
 import RegisterAdmin from "./components/RegisterAdmin";
@@ -42,6 +43,7 @@ function App() {
         <Route path="/homepageUser" element={<HomePageUser />} />
         <Route path="/reseps/:id" element={<Recipe />} />
         <Route path="/reseps/:id/login" element={<RecipeLogin />} />
+        <Route path="/reseps/:id/admin" element={<ResepAdmin />} />
         <Route path="/recipeAdmin" element={<RecipeAdmin />} />
         <Route path="/editAdmin/:id" element={<EditAdmin />} />
         <Route path="/user" element={<User />} />

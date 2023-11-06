@@ -10,6 +10,24 @@
     align-items: center;
 }
 
+.fotor {
+    position: relative;
+    text-align: center;
+    justify-content: center;
+    width: 500px;
+    height: 400px;
+    left: 200px;
+}
+
+.rectangl7{
+    width: 1000px;
+    height: max-content;
+    top: 50px;
+    left: 5px;
+    position: relative;
+    background-color: white;
+}
+
 .rectangle9 {
     width: 100%;
     left: 40rem;
